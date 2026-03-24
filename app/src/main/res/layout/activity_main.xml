@@ -1,88 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="?attr/actionBarSize"
     tools:context=".MainActivity">
 
-
-    <EditText
-        android:id="@+id/Edit1"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:hint="숫자1"
-        android:inputType="text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/Edit2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:hint="숫자2"
-        android:inputType="text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Edit1" />
+        <EditText
+            android:id="@+id/edtUrl"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="text"
+            android:hint="URL을 입력하세요." />
 
-    <Button
-        android:id="@+id/BtnAdd"
-        android:layout_width="409dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="24dp"
-        android:text="더하기"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.435"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Edit2" />
+        <Button
+            android:id="@+id/btnGo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="이동" />
 
-    <Button
-        android:id="@+id/BtnSubtract"
-        android:layout_width="409dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="16dp"
-        android:text="빼기"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/BtnAdd" />
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="이전" />
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/BtnMultiply"
-        android:layout_width="409dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="16dp"
-        android:text="곱하기"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/BtnSubtract" />
-
-    <Button
-        android:id="@+id/BtnDivide"
-        android:layout_width="409dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="16dp"
-        android:text="나누기"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/BtnMultiply" />
-
-    <TextView
-        android:id="@+id/TextResult"
-        android:layout_width="409dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_marginTop="8dp"
-        android:text="계산 결과 :"
-        android:textColor="#FF0000"
-        android:textSize="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/BtnDivide" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <WebView
+        android:id="@+id/webView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

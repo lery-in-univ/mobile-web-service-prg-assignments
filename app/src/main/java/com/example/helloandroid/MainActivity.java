@@ -1,78 +1,56 @@
 package com.example.helloandroid;
 
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
-    EditText edit1, edit2;
-    Button btnAdd, btnSub, btnMul, btnDiv;
-    TextView textResult;
-    String num1, num2;
-    Integer result;
+    EditText edtUrl;
+    Button btnGo, btnBack;
+    WebView web;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle("초간단 계산기");
 
-        edit1 = findViewById(R.id.Edit1);
-        edit2 = findViewById(R.id.Edit2);
-        btnAdd = findViewById(R.id.BtnAdd);
-        btnSub = findViewById(R.id.BtnSubtract);
-        btnMul = findViewById(R.id.BtnMultiply);
-        btnDiv = findViewById(R.id.BtnDivide);
-        textResult = findViewById(R.id.TextResult);
+        edtUrl = findViewById(R.id.edtUrl);
+        btnGo = findViewById(R.id.btnGo);
+        btnBack = findViewById(R.id.btnBack);
+        web = findViewById(R.id.webView1);
 
-        btnAdd.setOnTouchListener(new View.OnTouchListener() {
+        web.setWebViewClient(new CookWebViewClient());
+
+        WebSettings webSet = web.getSettings();
+        webSet.setBuiltInZoomControls(true);
+        webSet.setJavaScriptEnabled(true);
+
+        btnGo.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                num1 = edit1.getText().toString();
-                num2 = edit2.getText().toString();
-                result = Integer.parseInt(num1) + Integer.parseInt(num2);
-                textResult.setText("계산 결과 : " + result.toString());
-                return false;
+            public void onClick(View view) {
+                web.loadUrl(edtUrl.getText().toString());
             }
         });
 
-        btnSub.setOnTouchListener(new View.OnTouchListener() {
+        btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                num1 = edit1.getText().toString();
-                num2 = edit2.getText().toString();
-                result = Integer.parseInt(num1) - Integer.parseInt(num2);
-                textResult.setText("계산 결과 : " + result.toString());
-                return false;
+            public void onClick(View view) {
+                web.goBack();
             }
         });
+    }
 
-        btnMul.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                num1 = edit1.getText().toString();
-                num2 = edit2.getText().toString();
-                result = Integer.parseInt(num1) * Integer.parseInt(num2);
-                textResult.setText("계산 결과 : " + result.toString());
-                return false;
-            }
-        });
-
-        btnDiv.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                num1 = edit1.getText().toString();
-                num2 = edit2.getText().toString();
-                result = Integer.parseInt(num1) / Integer.parseInt(num2);
-                textResult.setText("계산 결과 : " + result.toString());
-                return false;
-            }
-        });
+    class CookWebViewClient extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            return super.shouldOverrideUrlLoading(view, url);
+        }
     }
 }
