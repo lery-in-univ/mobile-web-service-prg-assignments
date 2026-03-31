@@ -1,64 +1,73 @@
 package com.example.helloandroid;
 
-import android.content.DialogInterface;
+import android.Manifest;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
+import java.io.File;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
-    TextView tvName, tvEmail;
-    Button button1;
-    EditText dlgEdtName, dlgEdtEmail;
-    TextView toastText;
-    View dialogView, toastView;
+    Button btnPrev, btnNext;
+    myPictureView myPicture;
+    int curNum = 0;
+    File[] imageFiles = new File[0];
+    String imageFname;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle("사용자 정보 입력");
+        setTitle("간단 이미지 뷰어");
 
-        tvName = findViewById(R.id.tvName);
-        tvEmail = findViewById(R.id.tvEmail);
-        button1 = findViewById(R.id.button1);
+        ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, MODE_PRIVATE);
+        btnPrev = findViewById(R.id.btnPrev);
+        btnNext = findViewById(R.id.btnNext);
+        myPicture = findViewById(R.id.myPictureView1);
 
-        button1.setOnClickListener(new View.OnClickListener() {
+        File[] allFiles = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures").listFiles();
+        for (int i = 0; i < allFiles.length; i++) {
+            if (allFiles[i].isFile()) {
+                imageFiles = Arrays.copyOf(imageFiles, imageFiles.length + 1);
+                imageFiles[imageFiles.length - 1] = allFiles[i];
+            }
+
+            imageFname = imageFiles[curNum].toString();
+            myPicture.imagePath = imageFname;
+        }
+
+        btnPrev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialogView = (View) View.inflate(MainActivity.this, R.layout.dialog1, null);
-                AlertDialog.Builder dlg = new AlertDialog.Builder(MainActivity.this);
-                dlg.setTitle("사용자 정보 입력");
-                dlg.setIcon(R.drawable.ic_menu_allfriends);
-                dlg.setView(dialogView);
-                dlg.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dlgEdtName = dialogView.findViewById(R.id.dlgEdt1);
-                        dlgEdtEmail = dialogView.findViewById(R.id.dlgEdt2);
+                if (curNum <= 0) {
+                    Toast.makeText(getApplicationContext(), "첫번째 그림입니다", Toast.LENGTH_SHORT).show();
+                } else {
+                    curNum--;
+                    imageFname = imageFiles[curNum].toString();
+                    myPicture.imagePath = imageFname;
+                    myPicture.invalidate();
+                }
+            }
+        });
 
-                        tvName.setText(dlgEdtName.getText().toString());
-                        tvEmail.setText(dlgEdtEmail.getText().toString());
-                    }
-                });
-                dlg.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast toast = new Toast(MainActivity.this);
-                        toastView = (View) View.inflate(MainActivity.this, R.layout.toast1, null);
-                        toastText = toastView.findViewById(R.id.toastText1);
-                        toastText.setText("취소했습니다");
-                        toast.setView(toastView);
-                        toast.show();
-                    }
-                });
-                dlg.show();
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (curNum >= imageFiles.length - 1) {
+                    Toast.makeText(getApplicationContext(), "마지막 그림입니다", Toast.LENGTH_SHORT).show();
+                } else {
+                    curNum++;
+                    imageFname = imageFiles[curNum].toString();
+                    myPicture.imagePath = imageFname;
+                    myPicture.invalidate();;
+                }
             }
         });
     }
