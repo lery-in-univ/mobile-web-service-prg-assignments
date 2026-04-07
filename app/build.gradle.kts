@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.helloandroid"
+    namespace = "com.example.project9_4"
     compileSdk {
         version = release(36) {
             minorApiLevel = 1
@@ -11,9 +11,9 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.helloandroid"
+        applicationId = "com.example.project9_4"
         minSdk = 28
-        targetSdk = 29
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -36,12 +36,11 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
+    implementation(libs.appcompat)
     implementation(libs.material)
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.constraintlayout)
+    implementation(libs.activity)
+    implementation(libs.constraintlayout)
     testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.ext.junit)
+    androidTestImplementation(libs.espresso.core)
 }
