@@ -22,5 +22,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Project9_4"
+rootProject.name = "PhotoBlog"
 include(":app")

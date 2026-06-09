@@ -1,4 +1,4 @@
-package com.example.project9_4;
+package com.example.photoblog;
 
 import org.junit.Test;
 
