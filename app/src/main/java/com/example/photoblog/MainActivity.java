@@ -36,6 +36,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -43,7 +46,12 @@ public class MainActivity extends AppCompatActivity {
     private static final int READ_MEDIA_IMAGES_PERMISSION_CODE = 1001;
     private static final int READ_EXTERNAL_STORAGE_PERMISSION_CODE = 1002;
 
-    private static final String UPLOAD_URL = "http://10.0.2.2:8000/api_root/Post/";
+//    private static final String UPLOAD_URL = "http://10.0.2.2:8000/api_root/Post/";
+    private static final String UPLOAD_URL = "https://coalery.pythonanywhere.com/api_root/Post/";
+
+//    private static final String DRF_TOKEN = "739484805c351d747ba78619a42ed116ff18b678";
+    private static final String DRF_TOKEN = "b1a5bcff2c5867fd57b9903648e8721d0da6ce9e";
+
     Uri imageUri = null;
 
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
@@ -143,13 +151,15 @@ public class MainActivity extends AppCompatActivity {
                 String twoHyphens = "--";
                 File imageFile = new File(imageUrl);
 
+                String currentTime = ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
+
                 URL url = new URL(UPLOAD_URL);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
                 connection.setDoInput(true);
                 connection.setDoOutput(true);
                 connection.setUseCaches(false);
-                connection.setRequestProperty("Authorization", "Token 739484805c351d747ba78619a42ed116ff18b678");
+                connection.setRequestProperty("Authorization", "Token " + DRF_TOKEN);
                 connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
 
                 outputStream = new DataOutputStream(connection.getOutputStream());
@@ -179,14 +189,14 @@ public class MainActivity extends AppCompatActivity {
                 outputStream.writeBytes("Content-Disposition: form-data; name=\"created_date\"" + lineEnd);
                 outputStream.writeBytes("Content-Type: text/plain; charset=UTF-8" + lineEnd);
                 outputStream.writeBytes(lineEnd);
-                outputStream.write("2026-06-09T16:30:00+09:00".getBytes(StandardCharsets.UTF_8));
+                outputStream.write(currentTime.getBytes(StandardCharsets.UTF_8));
                 outputStream.writeBytes(lineEnd);
 
                 outputStream.writeBytes(twoHyphens + boundary + lineEnd);
                 outputStream.writeBytes("Content-Disposition: form-data; name=\"published_date\"" + lineEnd);
                 outputStream.writeBytes("Content-Type: text/plain; charset=UTF-8" + lineEnd);
                 outputStream.writeBytes(lineEnd);
-                outputStream.write("2026-06-09T16:30:00+09:00".getBytes(StandardCharsets.UTF_8));
+                outputStream.write(currentTime.getBytes(StandardCharsets.UTF_8));
                 outputStream.writeBytes(lineEnd);
 
                 outputStream.writeBytes(twoHyphens + boundary + lineEnd);
